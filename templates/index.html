@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>단어장</title>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <h4 style="color:red">서버에 해당 단어가 없습니다!</h4>
+    {% endif %}
+    {% endwith %}
+
+    <h3>Welcome!</h3>
+    단어장에 오신것을 환영합니다! <br>
+    현재 DB의 단어 개수는 {{ count }}개 입니다!
+    <br><br>
+
+    <form action="/search" method="post">
+        <input type="text" name="search" id="search"> <input type="submit" value="검색">
+    </form>
+    <br><br>
+    <form action="/random_search" method="post">
+        <input type="submit" value="랜덤 단어">
+    </form>
+
+    <br><br>
+    <h3>단어장</h3> <input type="button" value="단어장 초기화" onclick="reset()"> <br><br>
+    <div id="list">
+
+    </div>
+    <script>
+        function init() {
+            if (localStorage.getItem("wordlist") == null) {
+                console.log("localStorage 재설정")
+                localStorage.setItem("wordlist", JSON.stringify({ list: [] }))
+            }
+        }
+        init()
+        function list(){
+            wordlist = JSON.parse(localStorage.getItem("wordlist")) 
+            if (wordlist.list.length == 0) {
+                new_li = document.createElement("li")
+                word = document.createTextNode("추가된 단어가 없습니다.")
+                new_li.appendChild(word)
+
+                div = document.getElementById("list")
+                div.appendChild(new_li)
+
+            }
+            else {
+                for (var i in wordlist.list) {
+                        for (var e in wordlist.list[i]) {
+                            new_li = document.createElement("li")
+                            word = document.createTextNode(e + " / " + wordlist.list[i][e] )
+                            new_li.appendChild(word)
+
+                            div = document.getElementById("list")
+                            div.appendChild(new_li)
+
+                        }
+                }
+            }     
+        }
+        list()
+
+        function reset() {
+            localStorage.setItem("wordlist", JSON.stringify({ list: [] }))
+            alert("리셋 완료!")
+            location.reload(true)
+        }
+    </script>
+</body>
+
+</html>

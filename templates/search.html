@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{ word }} 단어 검색</title>
+</head>
+<body>
+    <h3>{{ word }}의 뜻</h3>
+    {{ mean }}
+    <br><br>
+    <input type="button" value="이 단어 단어장에 넣기" onclick="addToList('{{ word }}','{{ mean }}')">
+
+<script>
+    function init() {
+        if (localStorage.getItem("wordlist") == null) {
+            localStorage.setItem("wordlist", JSON.stringify({ list: [] }))
+        }
+    }
+    
+    function addToList(word, mean) {
+        init()
+        add = {}
+        add[word] = mean
+
+        data = JSON.parse(localStorage.getItem("wordlist"))
+        data.list.unshift(add)
+        localStorage.setItem("wordlist", JSON.stringify(data))
+        alert("추가 완료!")
+    }
+
+</script>
+</body>
+</html>
