@@ -21,7 +21,8 @@
                 localStorage.setItem(WORD_LS, JSON.stringify([]));
             }
             else{
-                wordList = [localStorage.getItem(WORD_LS)];
+                wordList = localStorage.getItem(WORD_LS);
+                wordList = JSON.parse(wordList);
             }
         }
 
