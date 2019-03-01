@@ -10,26 +10,33 @@
     <h3>{{ word }}의 뜻</h3>
     {{ mean }}
     <br><br>
-    <input type="button" value="이 단어 단어장에 넣기" onclick="addToList('{{ word }}','{{ mean }}')">
+    <input type="button" value="이 단어 단어장에 넣기" onclick="addToList('{{ word }}', '{{ mean }}')">
 
-<script>
-    function init() {
-        if (localStorage.getItem("wordlist") == null) {
-            localStorage.setItem("wordlist", JSON.stringify({ list: [] }))
+    <script>
+        const WORD_LS = 'wordlist';
+        let wordList = [];
+
+        function init(){
+            if(localStorage.getItem(WORD_LS) == null){
+                localStorage.setItem(WORD_LS, JSON.stringify([]));
+            }
+            else{
+                wordList = [localStorage.getItem(WORD_LS)];
+            }
         }
-    }
-    
-    function addToList(word, mean) {
-        init()
-        add = {}
-        add[word] = mean
 
-        data = JSON.parse(localStorage.getItem("wordlist"))
-        data.list.unshift(add)
-        localStorage.setItem("wordlist", JSON.stringify(data))
-        alert("추가 완료!")
-    }
-
-</script>
+        function addToList(word, mean){
+            const newId = wordList.length+1;
+            const wordObj = {
+                word : word,
+                mean : mean,
+                id : newId
+            }
+            wordList.push(wordObj);
+            localStorage.setItem(WORD_LS, JSON.stringify(wordList));
+            alert("단어장에 추가하였습니다!")
+        }
+        init();
+    </script>
 </body>
 </html>
