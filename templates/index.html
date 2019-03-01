@@ -30,50 +30,11 @@
 
     <br><br>
     <h3>단어장</h3> <input type="button" value="단어장 초기화" onclick="reset()"> <br><br>
-    <div id="list">
+    <ul class="list">
+        
+    </ul>
 
-    </div>
-    <script>
-        function init() {
-            if (localStorage.getItem("wordlist") == null) {
-                console.log("localStorage 재설정")
-                localStorage.setItem("wordlist", JSON.stringify({ list: [] }))
-            }
-        }
-        init()
-        function list(){
-            wordlist = JSON.parse(localStorage.getItem("wordlist")) 
-            if (wordlist.list.length == 0) {
-                new_li = document.createElement("li")
-                word = document.createTextNode("추가된 단어가 없습니다.")
-                new_li.appendChild(word)
-
-                div = document.getElementById("list")
-                div.appendChild(new_li)
-
-            }
-            else {
-                for (var i in wordlist.list) {
-                        for (var e in wordlist.list[i]) {
-                            new_li = document.createElement("li")
-                            word = document.createTextNode(e + " / " + wordlist.list[i][e] )
-                            new_li.appendChild(word)
-
-                            div = document.getElementById("list")
-                            div.appendChild(new_li)
-
-                        }
-                }
-            }     
-        }
-        list()
-
-        function reset() {
-            localStorage.setItem("wordlist", JSON.stringify({ list: [] }))
-            alert("리셋 완료!")
-            location.reload(true)
-        }
-    </script>
+    <script src="./aboutlist.js"></script>
 </body>
 
 </html>
